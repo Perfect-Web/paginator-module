@@ -55,7 +55,7 @@ class PaginatorHelper extends AbstractHelper implements ServiceLocatorAwareInter
     public function __invoke(Paginator $paginator = null)
     {
         if (null !== $paginator) {
-            $this->paginator = $paginator;
+            $this->setPaginator($paginator);
         }
 
         if (null === $this->url) {
@@ -203,7 +203,18 @@ class PaginatorHelper extends AbstractHelper implements ServiceLocatorAwareInter
      */
     public function setPaginator(Paginator $paginator)
     {
+
         $this->paginator = $paginator;
+
+        $params = $this->paginator->getData();
+        $parameters = $paginator->getParameters();
+        $event = $this->getServiceLocator()->getServiceLocator()->get('Application')->getMvcEvent();
+
+        if ($params[$parameters->getName('route')]) {
+            $this->paginator->getPaginator()->setCurrentPageNumber(
+                $event->getRouteMatch()->getParam($parameters->getName('page'), 1)
+            );
+        }
 
         return $this;
     }
