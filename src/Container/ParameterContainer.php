@@ -10,7 +10,7 @@ use Nicovogelaar\Paginator\Exception;
 
 /**
  * ParameterContainer
- * 
+ *
  * @author Nico Vogelaar <nico@nicovogelaar.nl>
  */
 class ParameterContainer
@@ -28,6 +28,7 @@ class ParameterContainer
      * @var array
      */
     protected $names = array(
+        'route'          => 'route',
         'page'           => 'page',
         'sort_field'     => 'sort',
         'sort_direction' => 'direction',
@@ -167,11 +168,11 @@ class ParameterContainer
 
     /**
      * Get request parameter name
-     * 
+     *
      * @param string $key Internal parameter name
-     * 
+     *
      * @return string
-     * 
+     *
      * @throws Exception
      */
     public function getName($key)
@@ -190,7 +191,7 @@ class ParameterContainer
      * @param string $name Request parameter name
      *
      * @return ParameterContainer
-     * 
+     *
      * @throws Exception
      */
     public function setName($key, $name)

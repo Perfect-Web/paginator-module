@@ -7,6 +7,7 @@
 namespace Nicovogelaar\Paginator\View\Helper;
 
 use Zend\Form\Element;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\View\Helper\AbstractHelper;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -15,11 +16,14 @@ use Nicovogelaar\Paginator\Form\FilterForm;
 
 /**
  * PaginatorHelper
- * 
+ *
  * @author Nico Vogelaar <nico@nicovogelaar.nl>
  */
 class PaginatorHelper extends AbstractHelper implements ServiceLocatorAwareInterface
 {
+
+    use ServiceLocatorAwareTrait;
+
     /**
      * Paginator
      *
@@ -139,9 +143,16 @@ class PaginatorHelper extends AbstractHelper implements ServiceLocatorAwareInter
         $params = $this->paginator->getData();
         $params[$parameters->getName('page')] = $parameters->getPage();
 
-        $query = http_build_query($params);
+        if ($params[$parameters->getName('route')]) {
+            $params[$parameters->getName('page')] = $page;
+            $url = $this->view->url(null, $params, array(), true);
+        }
+        else {
+            $query = http_build_query($params);
+            $url = $this->url . ('' != $query ? '?' . $query : '');
+        }
 
-        return $this->url . ('' != $query ? '?' . $query : '');
+        return $url;
     }
 
     /**
@@ -197,27 +208,4 @@ class PaginatorHelper extends AbstractHelper implements ServiceLocatorAwareInter
         return $this;
     }
 
-    /**
-     * Set the service locator
-     *
-     * @param ServiceLocatorInterface $serviceLocator Service locator
-     *
-     * @return Paginator
-     */
-    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
-    {
-        $this->serviceLocator = $serviceLocator;
-
-        return $this;
-    }
-
-    /**
-     * Get the service locator
-     *
-     * @return ServiceLocatorInterface
-     */
-    public function getServiceLocator()
-    {
-        return $this->serviceLocator;
-    }
 }
