@@ -1,11 +1,11 @@
 <?php if ($pageCount): ?>
     <ul class="pagination">
         <li<?php echo !isset($previous) ? ' class="disabled"' : ''; ?>>
-            <a href="<?php echo $this->paginator()->pageUrl($first); ?>">&laquo;</a>
+            <a class="first" href="<?php echo $this->paginator()->pageUrl($first); ?>">&laquo;</a>
         </li>
         <li<?php echo !isset($previous) ? ' class="disabled"' : ''; ?>>
         	<?php $page = isset($previous) ? $previous : $first; ?>
-            <a href="<?php echo $this->paginator()->pageUrl($page); ?>">&lsaquo;</a>
+            <a class="previous" href="<?php echo $this->paginator()->pageUrl($page); ?>">&lsaquo;</a>
         </li>
         <?php foreach ($pagesInRange as $page): ?>
             <li<?php echo $page == $current ? ' class="active"' : ''; ?>>
@@ -14,10 +14,10 @@
         <?php endforeach; ?>
         <li<?php echo !isset($next) ? ' class="disabled"' : ''; ?>>
         	<?php $page = isset($next) ? $next : $last; ?>
-            <a href="<?php echo $this->paginator()->pageUrl($page); ?>">&rsaquo;</a>
+            <a class="next" href="<?php echo $this->paginator()->pageUrl($page); ?>">&rsaquo;</a>
         </li>
         <li<?php echo !isset($next) ? ' class="disabled"' : ''; ?>>
-            <a href="<?php echo $this->paginator()->pageUrl($last); ?>">&raquo;</a>
+            <a class="last" href="<?php echo $this->paginator()->pageUrl($last); ?>">&raquo;</a>
         </li>
     </ul>
 <?php endif; ?>
